@@ -1,0 +1,81 @@
+import socket
+import select
+import errno
+import sys
+
+NUMBER_LENGTH = 4
+IP = "127.0.0.1"
+port = 5678
+
+name = input("Player Number: ")
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+clientSocket.connect((IP, port))
+clientSocket.setblocking(False)
+
+clientName = name.encode("utf-8")
+nameHeader = f"{len(clientName):<{NUMBER_LENGTH}}".encode("utf-8")
+clientSocket.send(nameHeader + clientName)
+a = [0,0,0,0,0,0,0,0]
+b = [0,0,0,0,0,0,0,0]
+c = [0,0,0,0,0,0,0,0]
+d = [0,0,0,0,0,0,0,0]
+e = [0,0,0,0,0,0,0,0]
+print("Layout of map: ")
+print("A ", a)
+print("B ", b)
+print("C ", c)
+print("D ", d)
+print("E ", e)
+
+lay = input(f"Player {name} where do you want you first ships head? (example entry: 'A 3', whitespace sensitive) (2 spaces): ")
+locationHead = lay.split()
+locHead0 = (locationHead[0])
+locHead1 = int(locationHead[1])
+if locHead0.lower == "a":
+    print(locHead1)
+    a[locationHead[1]]=1
+if locationHead[0].lower == "b":
+    b[locationHead[1]]=1
+print("A ", a)
+print("B ", b)
+print("C ", c)
+print("D ", d)
+print("E ", e)
+while True:
+
+    message = input(f"Player {name} where do you want you first ship? (2 spaces): ")
+    if message:
+        message = message.encode("utf-8")
+        messageHeader = f"{len(message):<{NUMBER_LENGTH}}".encode("utf-8")
+        if message.decode("utf-8") == "{quit}":
+            clientSocket.send(messageHeader + message)
+            print("Thanks for playing")
+            sys.exit()
+        clientSocket.send(messageHeader + message)
+    try:
+        while True:
+            # revives
+            nameHeader1 = clientSocket.recv(NUMBER_LENGTH)
+            if not len(nameHeader):
+                print("Server has closed the connection")
+                sys.Exit
+            temp = nameHeader1.decode("utf-8").strip()
+            nameLength = int(temp)
+            name1 = clientSocket.recv(nameLength).decode("utf-8")
+
+            messageHeader = clientSocket.recv(NUMBER_LENGTH)
+            messageLength = int(messageHeader.decode("utf-8").strip())
+            message = clientSocket.recv(messageLength).decode("utf-8")
+
+            print(f"{name1}: {message}\r")
+
+    except IOError as e:
+        if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
+            print('error', str(e))
+            sys.exit()
+        continue
+
+    except Exception as e:
+        print('Error', str(e))
+        sys.exit()
+        pass
