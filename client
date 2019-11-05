@@ -3,18 +3,19 @@ import select
 import errno
 import sys
 
+vert = False
 NUMBER_LENGTH = 4
 IP = "127.0.0.1"
 port = 5678
 
 name = input("Player Number: ")
-clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-clientSocket.connect((IP, port))
-clientSocket.setblocking(False)
+#clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#clientSocket.connect((IP, port))
+#clientSocket.setblocking(False)
 
-clientName = name.encode("utf-8")
-nameHeader = f"{len(clientName):<{NUMBER_LENGTH}}".encode("utf-8")
-clientSocket.send(nameHeader + clientName)
+#clientName = name.encode("utf-8")
+#nameHeader = f"{len(clientName):<{NUMBER_LENGTH}}".encode("utf-8")
+#clientSocket.send(nameHeader + clientName)
 a = [0,0,0,0,0,0,0,0]
 b = [0,0,0,0,0,0,0,0]
 c = [0,0,0,0,0,0,0,0]
@@ -28,54 +29,51 @@ print("D ", d)
 print("E ", e)
 
 lay = input(f"Player {name} where do you want you first ships head? (example entry: 'A 3', whitespace sensitive) (2 spaces): ")
+tail = input("Would you like it verticle? (y for yes, else it will be horizontal, row E will always defualt horizontal) ")
+if tail.lower == 'y'.lower:
+    vert = True
 locationHead = lay.split()
-locHead0 = (locationHead[0])
+locHead0 = str(locationHead[0])
 locHead1 = int(locationHead[1])
-if locHead0.lower == "a":
-    print(locHead1)
-    a[locationHead[1]]=1
-if locationHead[0].lower == "b":
-    b[locationHead[1]]=1
+a1 = 'a'
+b1 = 'b'
+c1 = 'c'
+d1 = 'd'
+e1 = 'e'
+if locHead0.lower == a1.lower:
+    a[locHead1 - 1] = 1
+    if vert:
+        b[locHead1 - 1] = 1
+    else:
+        a[locHead1] = 1
+
+elif locHead0.lower == b1.lower:
+    b[locHead1 - 1] = 1
+    if vert:
+        c[locHead1 - 1] = 1
+    else:
+        b[locHead1] = 1
+
+elif locHead0.lower == c1.lower:
+    c[locHead1 - 1] = 1
+    if vert:
+        d[locHead1 - 1] = 1
+    else:
+        c[locHead1] = 1
+
+elif locHead0.lower == d1.lower:
+    d[locHead1 - 1] = 1
+    if vert:
+        e[locHead1 - 1] = 1
+    else:
+        d[locHead1] = 1
+        
+elif locHead0.lower == e1.lower:
+    e[locHead1 - 1] = 1
+    e[locHead1] = 1
+
 print("A ", a)
 print("B ", b)
 print("C ", c)
 print("D ", d)
 print("E ", e)
-while True:
-
-    message = input(f"Player {name} where do you want you first ship? (2 spaces): ")
-    if message:
-        message = message.encode("utf-8")
-        messageHeader = f"{len(message):<{NUMBER_LENGTH}}".encode("utf-8")
-        if message.decode("utf-8") == "{quit}":
-            clientSocket.send(messageHeader + message)
-            print("Thanks for playing")
-            sys.exit()
-        clientSocket.send(messageHeader + message)
-    try:
-        while True:
-            # revives
-            nameHeader1 = clientSocket.recv(NUMBER_LENGTH)
-            if not len(nameHeader):
-                print("Server has closed the connection")
-                sys.Exit
-            temp = nameHeader1.decode("utf-8").strip()
-            nameLength = int(temp)
-            name1 = clientSocket.recv(nameLength).decode("utf-8")
-
-            messageHeader = clientSocket.recv(NUMBER_LENGTH)
-            messageLength = int(messageHeader.decode("utf-8").strip())
-            message = clientSocket.recv(messageLength).decode("utf-8")
-
-            print(f"{name1}: {message}\r")
-
-    except IOError as e:
-        if e.errno != errno.EAGAIN and e.errno != errno.EWOULDBLOCK:
-            print('error', str(e))
-            sys.exit()
-        continue
-
-    except Exception as e:
-        print('Error', str(e))
-        sys.exit()
-        pass
