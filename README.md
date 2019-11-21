@@ -13,7 +13,8 @@
 #Adams, Connor
 #Carlson, Ian
 
-
+#  How it Works
+ 
 #First the ships are initalized via where the player wants the ships head placead and which direction the tail will go
 
 #Ex: head is at A 3 and the player selects to have the 2 spot ship be placed vertcaly, the ship will be stored in arrays
