@@ -211,7 +211,10 @@ print("E ", e, "    Opponents E ", enE)
 isTurn = True
 while True:
     if isTurn:
-        message = input("Make a guess: ")
+        while True:
+            message = input("Make a guess: ")
+            if len(message) < 4:
+                break
         message = message.encode("utf-8")
         messageHeader = f"{len(message):<{NUMBER_LENGTH}}".encode("utf-8")
         clientSocket.send(messageHeader + message)
