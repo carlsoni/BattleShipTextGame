@@ -3,12 +3,54 @@ import select
 import errno
 import sys
 
+def check_valid(message, NUMBER_LENGTH):
+    inval = False
+    while True:
+        if len(message) < 4:
+            params = message.split()
+            try:
+                lo1 = int(params[1])
+            except:
+                inval = True
+            if not inval:
+                if lo1 > 0 and lo1 < 9:
+                    if not(params[0].lower() != "a".lower() and params[0].lower() != 'b'.lower() and params[0].lower() != 'c'.lower() and params[0].lower() != 'd'.lower() and params[0].lower() != 'e'.lower()):
+                        break
+        print("invalid input, EX: C 4 (include space)")
+        message = input("Try Again: ")
+    return message
+def process_guess(message, a, b, c, d, e):
+    locations = message.split()
+    locNum = int(locations[1])
+    if locations[0].lower() == "a".lower():
+        if a[locNum] >= 1:
+            a[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "b".lower():
+        if b[locNum] >= 1:
+            b[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "c".lower():
+        if c[locNum] >= 1:
+            c[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "d".lower():
+        if d[locNum] >= 1:
+            d[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "e".lower():
+        if e[locNum] >= 1:
+            e[locNum] -= 1
+            return "HIT"
+    return "MIS"
+
+
 vert = False
 NUMBER_LENGTH = 3
 IP = "127.0.0.1"
 port = 5678
 
-name = input("Player Number: ")
+name = "1"
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientSocket.connect((IP, port))
 clientSocket.setblocking(False)
@@ -211,13 +253,19 @@ print("E ", e, "    Opponents E ", enE)
 isTurn = True
 while True:
     if isTurn:
-        while True:
-            message = input("Make a guess: ")
-            if len(message) < 4:
-                break
+        message = input("Make a guess: ")
         message = message.encode("utf-8")
         messageHeader = f"{len(message):<{NUMBER_LENGTH}}".encode("utf-8")
         clientSocket.send(messageHeader + message)
+        while True:
+            try:
+                message2 = clientSocket.recv(NUMBER_LENGTH)
+                message2 = message2.decode("utf-8")
+                if message2:
+                    print(message2)
+                    break
+            except IOError as er:
+                continue
         isTurn = False
     else:
         try:
@@ -225,6 +273,12 @@ while True:
             message1 = message1.decode("utf-8")
             if message1:
                 print(message1)
+
+                guess = process_guess(message1, a, b, c, d, e)
+                guess = guess.encode("utf-8")
+                guessHeader = f"{len(guess):<{NUMBER_LENGTH}}".encode("utf-8")
+                clientSocket.send(guessHeader + guess)
+
                 isTurn = True
-        except IOError as e:
+        except IOError as er:
             continue
