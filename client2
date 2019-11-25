@@ -1,0 +1,291 @@
+import socket
+import select
+import errno
+import sys
+
+def check_valid(message, NUMBER_LENGTH):
+    inval = False
+    while True:
+        if len(message) <= NUMBER_LENGTH:
+            params = message.split()
+            try:
+                lo1 = int(params[1])
+            except:
+                inval = True
+            if not inval:
+                if lo1 > 0 and lo1 < 9:
+                    if not(params[0].lower() != "a".lower() and params[0].lower() != 'b'.lower() and params[0].lower() != 'c'.lower() and params[0].lower() != 'd'.lower() and params[0].lower() != 'e'.lower()):
+                        break
+        print("invalid input, EX: C 4 (include space)")
+        message = input("Try Again: ")
+    return message
+def process_guess(message, a, b, c, d, e):
+    locations = message.split()
+    locNum = int(locations[1])
+    if locations[0].lower() == "a".lower():
+        if a[locNum] >= 1:
+            a[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "b".lower():
+        if b[locNum] >= 1:
+            b[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "c".lower():
+        if c[locNum] >= 1:
+            c[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "d".lower():
+        if d[locNum] >= 1:
+            d[locNum] -= 1
+            return "HIT"
+    elif locations[0].lower() == "e".lower():
+        if e[locNum] >= 1:
+            e[locNum] -= 1
+            return "HIT"
+    return "MIS"
+
+vert = False
+NUMBER_LENGTH = 3
+IP = "127.0.0.1"
+port = 5678
+
+name = "2"
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+clientSocket.connect((IP, port))
+clientSocket.setblocking(False)
+
+clientName = name.encode("utf-8")
+nameHeader = f"{len(clientName):<{NUMBER_LENGTH}}".encode("utf-8")
+clientSocket.send(nameHeader + clientName)
+a = [0, 0, 0, 0, 0, 0, 0, 0]
+b = [0, 0, 0, 0, 0, 0, 0, 0]
+c = [0, 0, 0, 0, 0, 0, 0, 0]
+d = [0, 0, 0, 0, 0, 0, 0, 0]
+e = [0, 0, 0, 0, 0, 0, 0, 0]
+
+enA = [0, 0, 0, 0, 0, 0, 0, 0]
+enB = [0, 0, 0, 0, 0, 0, 0, 0]
+enC = [0, 0, 0, 0, 0, 0, 0, 0]
+enD = [0, 0, 0, 0, 0, 0, 0, 0]
+enE = [0, 0, 0, 0, 0, 0, 0, 0]
+
+print("Layout of map: ")
+print("    1  2  3  4  5  6  7  8")
+print("A ", a)
+print("B ", b)
+print("C ", c)
+print("D ", d)
+print("E ", e)
+
+lay = input(
+    f"Player {name} where do you want you first ships head? (example entry: 'A 3', whitespace sensitive) (2 spaces): ")
+tail = input(
+    "Would you like it verticle? (y for yes, else it will be horizontal, row E will always defualt horizontal) ")
+if tail.lower == 'y'.lower:
+    vert = True
+locationHead = lay.split()
+locHead0 = str(locationHead[0])
+locHead1 = int(locationHead[1])
+a1 = 'a'
+b1 = 'b'
+c1 = 'c'
+d1 = 'd'
+e1 = 'e'
+if locHead0.lower == a1.lower:
+    a[locHead1 - 1] += 1
+    if vert:
+        b[locHead1 - 1] += 1
+    else:
+        a[locHead1] += 1
+
+elif locHead0.lower == b1.lower:
+    b[locHead1 - 1] += 1
+    if vert:
+        c[locHead1 - 1] += 1
+    else:
+        b[locHead1] += 1
+
+elif locHead0.lower == c1.lower:
+    c[locHead1 - 1] += 1
+    if vert:
+        d[locHead1 - 1] += 1
+    else:
+        c[locHead1] += 1
+
+elif locHead0.lower == d1.lower:
+    d[locHead1 - 1] += 1
+    if vert:
+        e[locHead1 - 1] += 1
+    else:
+        d[locHead1] += 1
+
+elif locHead0.lower == e1.lower:
+    e[locHead1 - 1] += 1
+    e[locHead1] += 1
+
+vert = False
+while True:
+    lay = input(
+        f"Player {name} where do you want you second ships head? (example entry: 'A 3', whitespace sensitive) (3 spaces): ")
+    tail = input(
+        "Would you like it verticle? (y for yes, else it will be horizontal, rows D and E will always defualt horizontal) ")
+
+    if tail.lower == 'y'.lower:
+        vert = True
+
+    locationHead = lay.split()
+    locHead0 = str(locationHead[0])
+    try:
+        locHead1 = int(locationHead[1])
+    except:
+        print("Invalid Input")
+
+    if locHead0.lower == a1.lower:
+        a[locHead1 - 1] += 1
+        if vert:
+            b[locHead1 - 1] += 1
+            c[locHead1 - 1] += 1
+            break
+        else:
+            a[locHead1] += 1
+            a[locHead1 + 1] += 1
+            break
+
+    elif locHead0.lower == b1.lower:
+        b[locHead1 - 1] += 1
+        if vert:
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            break
+        else:
+            b[locHead1] += 1
+            b[locHead1 + 1] += 1
+            break
+
+    elif locHead0.lower == c1.lower:
+        c[locHead1 - 1] += 1
+        if vert:
+            d[locHead1 - 1] += 1
+            e[locHead1 - 1] += 1
+            break
+        else:
+            c[locHead1] += 1
+            c[locHead1 + 1] += 1
+            break
+
+    elif locHead0.lower == d1.lower:
+        d[locHead1 - 1] += 1
+        d[locHead1] += 1
+        d[locHead1 + 1] += 1
+        break
+
+    elif locHead0.lower == e1.lower:
+        e[locHead1 - 1] += 1
+        e[locHead1] += 1
+        e[locHead1 + 1] += 1
+        break
+    else:
+        print("Invalid Input Try again")
+while True:
+    lay = input(
+        f"Player {name} where do you want you Third ships head? (example entry: 'A 3', whitespace sensitive) (4 spaces): ")
+    tail = input(
+        "Would you like it verticle? (y for yes, else it will be horizontal, rows C, D and E will always defualt horizontal) ")
+
+    if tail.lower == 'y'.lower:
+        vert = True
+
+    locationHead = lay.split()
+    locHead0 = str(locationHead[0])
+    try:
+        locHead1 = int(locationHead[1])
+    except:
+        print("Invalid Input")
+
+    if locHead0.lower == a1.lower:
+        a[locHead1 - 1] += 1
+        if vert:
+            b[locHead1 - 1] += 1
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            break
+        else:
+            a[locHead1] += 1
+            a[locHead1 + 1] += 1
+            a[locHead1 + 2] += 1
+            break
+
+    elif locHead0.lower == b1.lower:
+        b[locHead1 - 1] += 1
+        if vert:
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            e[locHead1 - 1] += 1
+            break
+        else:
+            b[locHead1] += 1
+            b[locHead1 + 1] += 1
+            b[locHead1 + 2] += 1
+            break
+
+    elif locHead0.lower == c1.lower:
+        c[locHead1 - 1] += 1
+        c[locHead1] += 1
+        c[locHead1 + 1] += 1
+        c[locHead1 + 2] += 1
+        break
+
+    elif locHead0.lower == d1.lower:
+        d[locHead1 - 1] += 1
+        d[locHead1] += 1
+        d[locHead1 + 1] += 1
+        d[locHead1 + 2] += 1
+        break
+
+    elif locHead0.lower == e1.lower:
+        e[locHead1 - 1] += 1
+        e[locHead1] += 1
+        e[locHead1 + 1] += 1
+        e[locHead1 + 2] += 1
+        break
+    else:
+        print("Invalid Input Try again")
+print("A ", a, "    Opponents A ", enA)
+print("B ", b, "    Opponents B ", enB)
+print("C ", c, "    Opponents C ", enC)
+print("D ", d, "    Opponents D ", enD)
+print("E ", e, "    Opponents E ", enE)
+isTurn = False
+
+while True:
+    if isTurn:
+        message = input("Make a guess: ")
+        message = check_valid(message, NUMBER_LENGTH)
+        message = message.encode("utf-8")
+        messageHeader = f"{len(message):<{NUMBER_LENGTH}}".encode("utf-8")
+        clientSocket.send(messageHeader + message)
+        while True:
+            try:
+                message2 = clientSocket.recv(NUMBER_LENGTH)
+                message2 = message2.decode("utf-8")
+                if message2:
+                    print(message2)
+                    break
+            except IOError as er:
+                continue
+        isTurn = False
+    else:
+        try:
+            message1 = clientSocket.recv(NUMBER_LENGTH)
+            message1 = message1.decode("utf-8")
+            if message1:
+                print(message1)
+
+                guess = process_guess(message1, a, b, c, d, e)
+                guess = guess.encode("utf-8")
+                guessHeader = f"{len(guess):<{NUMBER_LENGTH}}".encode("utf-8")
+                clientSocket.send(guessHeader + guess)
+
+                isTurn = True
+        except IOError as er:
+            continue
