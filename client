@@ -94,48 +94,57 @@ if locHead0.lower == a1.lower:
     if vert:
         a[locHead1 - 1] += 1
         b[locHead1 - 1] += 1
+        break
     else:
         if locHead1 > 8:
             print("Invalid Input")
         a[locHead1 - 1] += 1
         a[locHead1] += 1
+        break
 
 elif locHead0.lower == b1.lower:
     if vert:
         b[locHead1 - 1] += 1
         c[locHead1 - 1] += 1
+        break
     else:
         if locHead1 > 8:
             print("Invalid Input")
         b[locHead1 - 1] += 1
         b[locHead1] += 1
+        break
 
 elif locHead0.lower == c1.lower:
     if vert:
         c[locHead1 - 1] += 1
         d[locHead1 - 1] += 1
+        break
     else:
         if locHead1 > 8:
             print("Invalid Input")
         c[locHead1 - 1] += 1
         c[locHead1] += 1
+        break
 
 elif locHead0.lower == d1.lower:
 
     if vert:
         d[locHead1 - 1] += 1
         e[locHead1 - 1] += 1
+        break
     else:
         if locHead1 > 8:
             print("Invalid Input")
         d[locHead1 - 1] += 1
         d[locHead1] += 1
+        break
 
 elif locHead0.lower == e1.lower:
     if locHead1 > 8:
         print("Invalid Input")
     e[locHead1 - 1] += 1
     e[locHead1] += 1
+    break
 
 vert = False
 while True:
