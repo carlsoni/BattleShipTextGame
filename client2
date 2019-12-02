@@ -92,43 +92,67 @@ c1 = 'c'
 d1 = 'd'
 e1 = 'e'
 if locHead0.lower == a1.lower:
-    a[locHead1 - 1] += 1
     if vert:
+        a[locHead1 - 1] += 1
         b[locHead1 - 1] += 1
+        
     else:
+        if locHead1 > 8:
+            print("Invalid Input")
+        a[locHead1 - 1] += 1
         a[locHead1] += 1
 
+
 elif locHead0.lower == b1.lower:
-    b[locHead1 - 1] += 1
     if vert:
+        b[locHead1 - 1] += 1
         c[locHead1 - 1] += 1
+
     else:
+        if locHead1 > 8:
+            print("Invalid Input")
+        b[locHead1 - 1] += 1
         b[locHead1] += 1
 
+
 elif locHead0.lower == c1.lower:
-    c[locHead1 - 1] += 1
     if vert:
+        c[locHead1 - 1] += 1
         d[locHead1 - 1] += 1
+
     else:
+        if locHead1 > 8:
+            print("Invalid Input")
+        c[locHead1 - 1] += 1
         c[locHead1] += 1
 
+
 elif locHead0.lower == d1.lower:
-    d[locHead1 - 1] += 1
+
     if vert:
+        d[locHead1 - 1] += 1
         e[locHead1 - 1] += 1
+
     else:
+        if locHead1 > 8:
+            print("Invalid Input")
+        d[locHead1 - 1] += 1
         d[locHead1] += 1
 
+
 elif locHead0.lower == e1.lower:
+    if locHead1 > 8:
+        print("Invalid Input")
+
     e[locHead1 - 1] += 1
     e[locHead1] += 1
 
+
+
 vert = False
 while True:
-    lay = input(
-        f"Player {name} where do you want you second ships head? (example entry: 'A 3', whitespace sensitive) (3 spaces): ")
-    tail = input(
-        "Would you like it verticle? (y for yes, else it will be horizontal, rows D and E will always defualt horizontal) ")
+    lay = input(f"Player {name} where do you want you second ships head? (example entry: 'A 3', whitespace sensitive) (3 spaces): ")
+    tail = input("Would you like it vertical? (y for yes, else it will be horizontal, rows D and E will always defualt horizontal) ")
 
     if tail.lower == 'y'.lower:
         vert = True
@@ -141,34 +165,44 @@ while True:
         print("Invalid Input")
 
     if locHead0.lower == a1.lower:
-        a[locHead1 - 1] += 1
         if vert:
+            a[locHead1 - 1] += 1
             b[locHead1 - 1] += 1
             c[locHead1 - 1] += 1
             break
         else:
+            if locHead1 + 1 > 8:
+                print("Invalid Input")
+            a[locHead1 - 1] += 1
             a[locHead1] += 1
             a[locHead1 + 1] += 1
             break
 
     elif locHead0.lower == b1.lower:
-        b[locHead1 - 1] += 1
+
         if vert:
+            b[locHead1 - 1] += 1
             c[locHead1 - 1] += 1
             d[locHead1 - 1] += 1
             break
         else:
+            if locHead1 + 1 > 8:
+                print("Invalid Input")
+            b[locHead1 - 1] += 1
             b[locHead1] += 1
             b[locHead1 + 1] += 1
             break
 
     elif locHead0.lower == c1.lower:
-        c[locHead1 - 1] += 1
         if vert:
+            c[locHead1 - 1] += 1
             d[locHead1 - 1] += 1
             e[locHead1 - 1] += 1
             break
         else:
+            if locHead1 + 1 > 8:
+                print("Invalid Input")
+            c[locHead1 - 1] += 1
             c[locHead1] += 1
             c[locHead1 + 1] += 1
             break
@@ -183,70 +217,6 @@ while True:
         e[locHead1 - 1] += 1
         e[locHead1] += 1
         e[locHead1 + 1] += 1
-        break
-    else:
-        print("Invalid Input Try again")
-while True:
-    lay = input(
-        f"Player {name} where do you want you Third ships head? (example entry: 'A 3', whitespace sensitive) (4 spaces): ")
-    tail = input(
-        "Would you like it verticle? (y for yes, else it will be horizontal, rows C, D and E will always defualt horizontal) ")
-
-    if tail.lower == 'y'.lower:
-        vert = True
-
-    locationHead = lay.split()
-    locHead0 = str(locationHead[0])
-    try:
-        locHead1 = int(locationHead[1])
-    except:
-        print("Invalid Input")
-
-    if locHead0.lower == a1.lower:
-        a[locHead1 - 1] += 1
-        if vert:
-            b[locHead1 - 1] += 1
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            break
-        else:
-            a[locHead1] += 1
-            a[locHead1 + 1] += 1
-            a[locHead1 + 2] += 1
-            break
-
-    elif locHead0.lower == b1.lower:
-        b[locHead1 - 1] += 1
-        if vert:
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            e[locHead1 - 1] += 1
-            break
-        else:
-            b[locHead1] += 1
-            b[locHead1 + 1] += 1
-            b[locHead1 + 2] += 1
-            break
-
-    elif locHead0.lower == c1.lower:
-        c[locHead1 - 1] += 1
-        c[locHead1] += 1
-        c[locHead1 + 1] += 1
-        c[locHead1 + 2] += 1
-        break
-
-    elif locHead0.lower == d1.lower:
-        d[locHead1 - 1] += 1
-        d[locHead1] += 1
-        d[locHead1 + 1] += 1
-        d[locHead1 + 2] += 1
-        break
-
-    elif locHead0.lower == e1.lower:
-        e[locHead1 - 1] += 1
-        e[locHead1] += 1
-        e[locHead1 + 1] += 1
-        e[locHead1 + 2] += 1
         break
     else:
         print("Invalid Input Try again")
