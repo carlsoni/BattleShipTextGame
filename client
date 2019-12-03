@@ -25,23 +25,23 @@ def process_guess(message, a, b, c, d, e):
     locNum -= 1
     if locations[0].lower() == "a".lower():
         if a[locNum] >= 1:
-            a[locNum] -= 1
+            a[locNum] = -1
             return "HIT"
     elif locations[0].lower() == "b".lower():
         if b[locNum] >= 1:
-            b[locNum] -= 1
+            b[locNum] = -1
             return "HIT"
     elif locations[0].lower() == "c".lower():
         if c[locNum] >= 1:
-            c[locNum] -= 1
+            c[locNum] = -1
             return "HIT"
     elif locations[0].lower() == "d".lower():
         if d[locNum] >= 1:
-            d[locNum] -= 1
+            d[locNum] = -1
             return "HIT"
     elif locations[0].lower() == "e".lower():
         if e[locNum] >= 1:
-            e[locNum] -= 1
+            e[locNum] = -1
             return "HIT"
     return "MIS"
 def modify_guess_map (message2, message, enA, enB, enC, enD, enE):
@@ -63,19 +63,19 @@ def modify_guess_map (message2, message, enA, enB, enC, enD, enE):
         enE[numParam] = tile
 def check_if_loss(a, b, c, d, e):
     for i in range(len(a)):
-        if a[i] != 0:
+        if a[i] > 0:
             return False
     for i in range(len(b)):
-        if b[i] != 0:
+        if b[i] > 0:
             return False
     for i in range(len(c)):
-        if c[i] != 0:
+        if c[i] > 0:
             return False
     for i in range(len(d)):
-        if d[i] != 0:
+        if d[i] > 0:
             return False
     for i in range(len(e)):
-        if e[i] != 0:
+        if e[i] > 0:
             return False
 
     return True
@@ -90,12 +90,170 @@ def print_win_message():
     print("      You Have Won       ")
     print("      Congratulations    ")
     print("*************************")
+def create_2_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
+    if locHead0.lower == a1.lower:
+        if vert:
+            a[locHead1 - 1] += 1
+            b[locHead1 - 1] += 1
+            return True
+        else:
+            a[locHead1] += 1
+            a[locHead1 - 1] += 1
+            return True
+    elif locHead0.lower == b1.lower:
+        if vert:
+            b[locHead1 - 1] += 1
+            c[locHead1 - 1] += 1
+            return True
+        else:
+            b[locHead1 - 1] += 1
+            b[locHead1] += 1
+            return True
+    elif locHead0.lower == c1.lower:
+        if vert:
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            return True
+        else:
+            c[locHead1 - 1] += 1
+            c[locHead1] += 1
+            return True
+    elif locHead0.lower == d1.lower:
+        if vert:
+            d[locHead1 - 1] += 1
+            e[locHead1 - 1] += 1
+            return True
+        else:
+            d[locHead1 - 1] += 1
+            d[locHead1] += 1
+            return True
+    elif locHead0.lower == e1.lower:
+        e[locHead1 - 1] += 1
+        e[locHead1] += 1
+        return True
+    else:
+        print("Invalid tile name")
+        return False
+def create_3_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
+    if locHead0.lower == a1.lower:
+        if vert:
+            if a[locHead1 - 1] != 1 and b[locHead1 - 1] != 1 and c[locHead1 - 1] != 1:
+                a[locHead1 - 1] += 1
+                b[locHead1 - 1] += 1
+                c[locHead1 - 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
+        else:
+            if a[locHead1 - 1] != 1 and a[locHead1] != 1 and a[locHead1 + 1] != 1:
+                a[locHead1 - 1] += 1
+                a[locHead1] += 1
+                a[locHead1 + 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
+    elif locHead0.lower == b1.lower:
+        if vert:
+            b[locHead1 - 1] += 1
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            return True
+        else:
+            b[locHead1 - 1] += 1
+            b[locHead1] += 1
+            b[locHead1 + 1] += 1
+            return True
 
+    elif locHead0.lower == c1.lower:
+        if vert:
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            e[locHead1 - 1] += 1
+            return True
+        else:
+            c[locHead1 - 1] += 1
+            c[locHead1] += 1
+            c[locHead1 + 1] += 1
+            return True
+
+    elif locHead0.lower == d1.lower:
+        d[locHead1 - 1] += 1
+        d[locHead1] += 1
+        d[locHead1 + 1] += 1
+        return True
+
+    elif locHead0.lower == e1.lower:
+        e[locHead1 - 1] += 1
+        e[locHead1] += 1
+        e[locHead1 + 1] += 1
+        return True
+    else:
+        print("Invalid Input Try again")
+        return False
+def create_4_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
+    if locHead0.lower == a1.lower:
+        if vert:
+            a[locHead1 - 1] += 1
+            b[locHead1 - 1] += 1
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            return True
+        else:
+            a[locHead1 - 1] += 1
+            a[locHead1] += 1
+            a[locHead1 + 1] += 1
+            a[locHead1 + 2] += 1
+            return True
+
+    elif locHead0.lower == b1.lower:
+        if vert:
+            b[locHead1 - 1] += 1
+            c[locHead1 - 1] += 1
+            d[locHead1 - 1] += 1
+            e[locHead1 - 1] += 1
+            return True
+        else:
+            b[locHead1 - 1] += 1
+            b[locHead1] += 1
+            b[locHead1 + 1] += 1
+            b[locHead1 + 2] += 1
+            return True
+
+    elif locHead0.lower == c1.lower:
+        c[locHead1 - 1] += 1
+        c[locHead1] += 1
+        c[locHead1 + 1] += 1
+        c[locHead1 + 2] += 1
+        return True
+
+    elif locHead0.lower == d1.lower:
+        d[locHead1 - 1] += 1
+        d[locHead1] += 1
+        d[locHead1 + 1] += 1
+        d[locHead1 + 2] += 1
+        return True
+
+    elif locHead0.lower == e1.lower:
+        e[locHead1 - 1] += 1
+        e[locHead1] += 1
+        e[locHead1 + 1] += 1
+        e[locHead1 + 2] += 1
+        return True
+    else:
+        print("Invalid Input Try again")
+        return False
 
 vert = False
 NUMBER_LENGTH = 3
 IP = "127.0.0.1"
 port = 5678
+a1 = 'a'
+b1 = 'b'
+c1 = 'c'
+d1 = 'd'
+e1 = 'e'
 
 name = "1"
 connected = False
@@ -136,65 +294,32 @@ print("C ", c)
 print("D ", d)
 print("E ", e)
 vert = False
+
 while True:
+    invalid = False
     lay = input(f"where do you want you first ships head? (example entry: 'A 3', whitespace sensitive) (2 spaces): ")
     tail = input("Would you like it vertical? (y for yes, else it will be horizontal,"
              " row E will always default horizontal) ")
     if tail.lower == 'y'.lower:
         vert = True
     locationHead = lay.split()
-    locHead0 = str(locationHead[0])
     try:
+        locHead0 = str(locationHead[0])
         locHead1 = int(locationHead[1])
     except:
         print("Invalid Input")
-
-    a1 = 'a'
-    b1 = 'b'
-    c1 = 'c'
-    d1 = 'd'
-    e1 = 'e'
-    if locHead0.lower == a1.lower:
-        a[locHead1 - 1] += 1
-        if vert:
-            b[locHead1 - 1] += 1
-            break
+        invalid = True
+    if not invalid:
+        if (locHead1 > 7 and not vert) or (locHead1 > 8) or (locHead0.lower() == e1.lower() and vert):
+            print("Invalid tile in array index")
         else:
-            a[locHead1] += 1
-            break
-    elif locHead0.lower == b1.lower:
-        b[locHead1 - 1] += 1
-        if vert:
-            c[locHead1 - 1] += 1
-            break
-        else:
-            b[locHead1] += 1
-            break
-    elif locHead0.lower == c1.lower:
-        c[locHead1 - 1] += 1
-        if vert:
-            d[locHead1 - 1] += 1
-            break
-        else:
-            c[locHead1] += 1
-            break
-    elif locHead0.lower == d1.lower:
-        d[locHead1 - 1] += 1
-        if vert:
-            e[locHead1 - 1] += 1
-            break
-        else:
-            d[locHead1] += 1
-            break
-    elif locHead0.lower == e1.lower:
-        e[locHead1 - 1] += 1
-        e[locHead1] += 1
-        break
-    else:
-        print("Invalid tile")
+            valid = create_2_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1)
+            if valid:
+                break
 vert = False
 
 while True:
+    invalid = False
     lay = input(f"where do you want you second ships head? (example entry: 'A 3', whitespace sensitive) (3 spaces): ")
     tail = input("Would you like it vertical? (y for yes, else it will be horizontal,"
                  " rows D and E will always default horizontal) ")
@@ -203,61 +328,24 @@ while True:
         vert = True
 
     locationHead = lay.split()
-    locHead0 = str(locationHead[0])
     try:
+        locHead0 = str(locationHead[0])
         locHead1 = int(locationHead[1])
     except:
         print("Invalid Input")
-
-    if locHead0.lower == a1.lower:
-        a[locHead1 - 1] += 1
-        if vert:
-            b[locHead1 - 1] += 1
-            c[locHead1 - 1] += 1
-            break
+        invalid = True
+    if not invalid:
+        if (locHead1 > 6 and not vert) or (locHead1 > 8) or ((locHead0.lower() == e1.lower() or locHead0.lower() ==
+                d1.lower()) and vert):
+            print("Invalid tile in array index")
         else:
-            a[locHead1] += 1
-            a[locHead1 + 1] += 1
-            break
-
-    elif locHead0.lower == b1.lower:
-        b[locHead1 - 1] += 1
-        if vert:
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            break
-        else:
-            b[locHead1] += 1
-            b[locHead1 + 1] += 1
-            break
-
-    elif locHead0.lower == c1.lower:
-        c[locHead1 - 1] += 1
-        if vert:
-            d[locHead1 - 1] += 1
-            e[locHead1 - 1] += 1
-            break
-        else:
-            c[locHead1] += 1
-            c[locHead1 + 1] += 1
-            break
-
-    elif locHead0.lower == d1.lower:
-        d[locHead1 - 1] += 1
-        d[locHead1] += 1
-        d[locHead1 + 1] += 1
-        break
-
-    elif locHead0.lower == e1.lower:
-        e[locHead1 - 1] += 1
-        e[locHead1] += 1
-        e[locHead1 + 1] += 1
-        break
-    else:
-        print("Invalid Input Try again")
+            valid = create_3_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1)
+            if valid:
+                break
 vert = False
 
 while True:
+    invalid = False
     lay = input(f"where do you want you Third ships head? (example entry: 'A 3', whitespace sensitive) (4 spaces): ")
     tail = input("Would you like it vertical? (y for yes, else it will be horizontal,"
                  " rows C, D and E will always default horizontal) ")
@@ -266,60 +354,20 @@ while True:
         vert = True
 
     locationHead = lay.split()
-    locHead0 = str(locationHead[0])
     try:
+        locHead0 = str(locationHead[0])
         locHead1 = int(locationHead[1])
     except:
         print("Invalid Input")
-
-    if locHead0.lower == a1.lower:
-        a[locHead1 - 1] += 1
-        if vert:
-            b[locHead1 - 1] += 1
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            break
+        invalid = True
+    if not invalid:
+        if (locHead1 > 5 and not vert) or (locHead1 > 8) or ((locHead0.lower() == e1.lower() or
+                locHead0.lower() == d1.lower() or locHead0 == c1.lower()) and vert):
+            print("Invalid tile: outside available index (Ship is not on the map)")
         else:
-            a[locHead1] += 1
-            a[locHead1 + 1] += 1
-            a[locHead1 + 2] += 1
-            break
-
-    elif locHead0.lower == b1.lower:
-        b[locHead1 - 1] += 1
-        if vert:
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            e[locHead1 - 1] += 1
-            break
-        else:
-            b[locHead1] += 1
-            b[locHead1 + 1] += 1
-            b[locHead1 + 2] += 1
-            break
-
-    elif locHead0.lower == c1.lower:
-        c[locHead1 - 1] += 1
-        c[locHead1] += 1
-        c[locHead1 + 1] += 1
-        c[locHead1 + 2] += 1
-        break
-
-    elif locHead0.lower == d1.lower:
-        d[locHead1 - 1] += 1
-        d[locHead1] += 1
-        d[locHead1 + 1] += 1
-        d[locHead1 + 2] += 1
-        break
-
-    elif locHead0.lower == e1.lower:
-        e[locHead1 - 1] += 1
-        e[locHead1] += 1
-        e[locHead1 + 1] += 1
-        e[locHead1 + 2] += 1
-        break
-    else:
-        print("Invalid Input Try again")
+            valid = create_4_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1)
+            if valid:
+                break
 
 print("A ", a, "    Opponents A ", enA)
 print("B ", b, "    Opponents B ", enB)
