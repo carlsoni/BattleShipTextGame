@@ -3,6 +3,7 @@ import select
 import errno
 import sys
 
+
 def check_valid(message, NUMBER_LENGTH):
     while True:
         inval = False
@@ -14,11 +15,15 @@ def check_valid(message, NUMBER_LENGTH):
                 inval = True
             if not inval:
                 if lo1 > 0 and lo1 < 9:
-                    if not(params[0].lower() != "a".lower() and params[0].lower() != 'b'.lower() and params[0].lower() != 'c'.lower() and params[0].lower() != 'd'.lower() and params[0].lower() != 'e'.lower()):
+                    if not (params[0].lower() != "a".lower() and params[0].lower() != 'b'.lower() and params[
+                        0].lower() != 'c'.lower() and params[0].lower() != 'd'.lower() and params[
+                                0].lower() != 'e'.lower()):
                         break
         print("invalid input, EX: C 4 (include space)")
         message = input("Try Again: ")
     return message
+
+
 def process_guess(message, a, b, c, d, e):
     locations = message.split()
     locNum = int(locations[1])
@@ -44,23 +49,27 @@ def process_guess(message, a, b, c, d, e):
             e[locNum] = -1
             return "HIT"
     return "MIS"
-def modify_guess_map (message2, message, enA, enB, enC, enD, enE):
+
+
+def modify_guess_map(message2, message, enA, enB, enC, enD, enE):
     params = message.split()
     numParam = int(params[1])
-    numParam = numParam-1
+    numParam = numParam - 1
     tile = "X"
     if message2.lower() == "mis".lower():
         tile = "-1"
     if params[0].lower() == "a".lower():
         enA[numParam] = tile
     elif params[0].lower() == "b".lower():
-       enB[numParam] = tile
+        enB[numParam] = tile
     elif params[0].lower() == "c".lower():
         enC[numParam] = tile
     elif params[0].lower() == "d".lower():
         enD[numParam] = tile
     elif params[0].lower() == "e".lower():
         enE[numParam] = tile
+
+
 def check_if_loss(a, b, c, d, e):
     for i in range(len(a)):
         if a[i] > 0:
@@ -79,18 +88,24 @@ def check_if_loss(a, b, c, d, e):
             return False
 
     return True
+
+
 def print_loss_message():
     print("*************************")
     print("      You Have Lost      ")
     print("      Player 2 won!      ")
     print("  Better Luck next Time! ")
     print("*************************")
+
+
 def print_win_message():
     print("*************************")
     print("      You Have Won       ")
     print("      Congratulations    ")
     print("*************************")
-def create_2_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
+
+
+def create_2_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1):
     if locHead0.lower == a1.lower:
         if vert:
             a[locHead1 - 1] += 1
@@ -134,7 +149,9 @@ def create_2_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
     else:
         print("Invalid tile name")
         return False
-def create_3_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
+
+
+def create_3_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1):
     if locHead0.lower == a1.lower:
         if vert:
             if a[locHead1 - 1] != 1 and b[locHead1 - 1] != 1 and c[locHead1 - 1] != 1:
@@ -156,94 +173,149 @@ def create_3_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
                 return False
     elif locHead0.lower == b1.lower:
         if vert:
-            b[locHead1 - 1] += 1
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            return True
+            if b[locHead1 - 1] != 1 and c[locHead1 - 1] != 1 and d[locHead1 - 1] != 1:
+                b[locHead1 - 1] += 1
+                c[locHead1 - 1] += 1
+                d[locHead1 - 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
         else:
-            b[locHead1 - 1] += 1
-            b[locHead1] += 1
-            b[locHead1 + 1] += 1
-            return True
+            if b[locHead1 - 1] != 1 and b[locHead1] != 1 and b[locHead1 + 1] != 1:
+                b[locHead1 - 1] += 1
+                b[locHead1] += 1
+                b[locHead1 + 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
 
     elif locHead0.lower == c1.lower:
         if vert:
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            e[locHead1 - 1] += 1
-            return True
+            if c[locHead1 - 1] != 1 and c[locHead1 - 1] != 1 and c[locHead1 - 1] != 1:
+                c[locHead1 - 1] += 1
+                d[locHead1 - 1] += 1
+                e[locHead1 - 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
         else:
-            c[locHead1 - 1] += 1
-            c[locHead1] += 1
-            c[locHead1 + 1] += 1
-            return True
+            if c[locHead1 - 1] != 1 and c[locHead1] != 1 and c[locHead1 + 1] != 1:
+                c[locHead1 - 1] += 1
+                c[locHead1] += 1
+                c[locHead1 + 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
 
     elif locHead0.lower == d1.lower:
-        d[locHead1 - 1] += 1
-        d[locHead1] += 1
-        d[locHead1 + 1] += 1
-        return True
+        if d[locHead1 - 1] != 1 and d[locHead1] != 1 and d[locHead1 + 1] != 1:
+            d[locHead1 - 1] += 1
+            d[locHead1] += 1
+            d[locHead1 + 1] += 1
+            return True
+        else:
+            print("Overlaps with other ship!")
+            return False
 
     elif locHead0.lower == e1.lower:
-        e[locHead1 - 1] += 1
-        e[locHead1] += 1
-        e[locHead1 + 1] += 1
-        return True
+        if e[locHead1 - 1] != 1 and e[locHead1] != 1 and e[locHead1 + 1] != 1:
+            e[locHead1 - 1] += 1
+            e[locHead1] += 1
+            e[locHead1 + 1] += 1
+            return True
+        else:
+            print("Overlaps with other ship!")
+            return False
     else:
         print("Invalid Input Try again")
         return False
-def create_4_tile_ship(a, b, c, d, e,vert,locHead0,locHead1,a1,b1,c1,d1,e1):
+
+
+def create_4_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1):
     if locHead0.lower == a1.lower:
         if vert:
-            a[locHead1 - 1] += 1
-            b[locHead1 - 1] += 1
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            return True
+            if a[locHead1 - 1] != 1 and b[locHead1 - 1] != 1 and c[locHead1 - 1] != 1 and d[locHead1 - 1] != 1:
+                a[locHead1 - 1] += 1
+                b[locHead1 - 1] += 1
+                c[locHead1 - 1] += 1
+                d[locHead1 - 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
         else:
-            a[locHead1 - 1] += 1
-            a[locHead1] += 1
-            a[locHead1 + 1] += 1
-            a[locHead1 + 2] += 1
-            return True
+            if a[locHead1 - 1] != 1 and a[locHead1] != 1 and a[locHead1 + 1] != 1 and a[locHead1 + 2]:
+                a[locHead1 - 1] += 1
+                a[locHead1] += 1
+                a[locHead1 + 1] += 1
+                a[locHead1 + 2] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
 
     elif locHead0.lower == b1.lower:
         if vert:
-            b[locHead1 - 1] += 1
-            c[locHead1 - 1] += 1
-            d[locHead1 - 1] += 1
-            e[locHead1 - 1] += 1
-            return True
+            if b[locHead1 - 1] != 1 and c[locHead1 - 1] != 1 and d[locHead1 - 1] != 1 and e[locHead1 - 1] != 1:
+                b[locHead1 - 1] += 1
+                c[locHead1 - 1] += 1
+                d[locHead1 - 1] += 1
+                e[locHead1 - 1] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
         else:
-            b[locHead1 - 1] += 1
-            b[locHead1] += 1
-            b[locHead1 + 1] += 1
-            b[locHead1 + 2] += 1
-            return True
+            if b[locHead1 - 1] != 1 and b[locHead1] != 1 and b[locHead1 + 1] != 1 and b[locHead1 + 2]:
+                b[locHead1 - 1] += 1
+                b[locHead1] += 1
+                b[locHead1 + 1] += 1
+                b[locHead1 + 2] += 1
+                return True
+            else:
+                print("Overlaps with other ship!")
+                return False
 
     elif locHead0.lower == c1.lower:
-        c[locHead1 - 1] += 1
-        c[locHead1] += 1
-        c[locHead1 + 1] += 1
-        c[locHead1 + 2] += 1
-        return True
+        if c[locHead1 - 1] != 1 and c[locHead1] != 1 and c[locHead1 + 1] != 1 and c[locHead1 + 2]:
+            c[locHead1 - 1] += 1
+            c[locHead1] += 1
+            c[locHead1 + 1] += 1
+            c[locHead1 + 2] += 1
+            return True
+        else:
+            print("Overlaps with other ship!")
+            return False
 
     elif locHead0.lower == d1.lower:
-        d[locHead1 - 1] += 1
-        d[locHead1] += 1
-        d[locHead1 + 1] += 1
-        d[locHead1 + 2] += 1
-        return True
+        if d[locHead1 - 1] != 1 and d[locHead1] != 1 and d[locHead1 + 1] != 1 and d[locHead1 + 2]:
+            d[locHead1 - 1] += 1
+            d[locHead1] += 1
+            d[locHead1 + 1] += 1
+            d[locHead1 + 2] += 1
+            return True
+        else:
+            print("Overlaps with other ship!")
+            return False
 
     elif locHead0.lower == e1.lower:
-        e[locHead1 - 1] += 1
-        e[locHead1] += 1
-        e[locHead1 + 1] += 1
-        e[locHead1 + 2] += 1
-        return True
+        if e[locHead1 - 1] != 1 and e[locHead1] != 1 and e[locHead1 + 1] != 1 and e[locHead1 + 2]:
+            e[locHead1 - 1] += 1
+            e[locHead1] += 1
+            e[locHead1 + 1] += 1
+            e[locHead1 + 2] += 1
+            return True
+        else:
+            print("Overlaps with other ship!")
+            return False
     else:
         print("Invalid Input Try again")
         return False
+
 
 vert = False
 NUMBER_LENGTH = 3
@@ -273,17 +345,17 @@ while not connected:
 clientName = name.encode("utf-8")
 nameHeader = f"{len(clientName):<{NUMBER_LENGTH}}".encode("utf-8")
 clientSocket.send(nameHeader + clientName)
-a = [0,0,0,0,0,0,0,0]
-b = [0,0,0,0,0,0,0,0]
-c = [0,0,0,0,0,0,0,0]
-d = [0,0,0,0,0,0,0,0]
-e = [0,0,0,0,0,0,0,0]
+a = [0, 0, 0, 0, 0, 0, 0, 0]
+b = [0, 0, 0, 0, 0, 0, 0, 0]
+c = [0, 0, 0, 0, 0, 0, 0, 0]
+d = [0, 0, 0, 0, 0, 0, 0, 0]
+e = [0, 0, 0, 0, 0, 0, 0, 0]
 
-enA = [0,0,0,0,0,0,0,0]
-enB = [0,0,0,0,0,0,0,0]
-enC = [0,0,0,0,0,0,0,0]
-enD = [0,0,0,0,0,0,0,0]
-enE = [0,0,0,0,0,0,0,0]
+enA = [0, 0, 0, 0, 0, 0, 0, 0]
+enB = [0, 0, 0, 0, 0, 0, 0, 0]
+enC = [0, 0, 0, 0, 0, 0, 0, 0]
+enD = [0, 0, 0, 0, 0, 0, 0, 0]
+enE = [0, 0, 0, 0, 0, 0, 0, 0]
 
 print(f"Welcome Player {name}")
 print("Layout of map: ")
@@ -299,7 +371,7 @@ while True:
     invalid = False
     lay = input(f"where do you want you first ships head? (example entry: 'A 3', whitespace sensitive) (2 spaces): ")
     tail = input("Would you like it vertical? (y for yes, else it will be horizontal,"
-             " row E will always default horizontal) ")
+                 " row E will always default horizontal) ")
     if tail.lower == 'y'.lower:
         vert = True
     locationHead = lay.split()
@@ -336,7 +408,7 @@ while True:
         invalid = True
     if not invalid:
         if (locHead1 > 6 and not vert) or (locHead1 > 8) or ((locHead0.lower() == e1.lower() or locHead0.lower() ==
-                d1.lower()) and vert):
+                                                              d1.lower()) and vert):
             print("Invalid tile in array index")
         else:
             valid = create_3_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1)
@@ -362,7 +434,7 @@ while True:
         invalid = True
     if not invalid:
         if (locHead1 > 5 and not vert) or (locHead1 > 8) or ((locHead0.lower() == e1.lower() or
-                locHead0.lower() == d1.lower() or locHead0 == c1.lower()) and vert):
+                                                              locHead0.lower() == d1.lower() or locHead0 == c1.lower()) and vert):
             print("Invalid tile: outside available index (Ship is not on the map)")
         else:
             valid = create_4_tile_ship(a, b, c, d, e, vert, locHead0, locHead1, a1, b1, c1, d1, e1)
