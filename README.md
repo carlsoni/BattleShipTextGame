@@ -9,11 +9,11 @@ players will uses the reponses from eachother to play a game
 # References
 https://www.youtube.com/watch?v=CV7_stUWvBQ
 
-used to code most of server class
+  used to code most of server class
 
 https://www.youtube.com/watch?v=ytu2yV3Gn1I
 
-used as a template to code the comunication between clients and server
+  used as a template to code the comunication between clients and server
 
 #  Team Members
 Connor Adams: Hard Coder, error method developer
