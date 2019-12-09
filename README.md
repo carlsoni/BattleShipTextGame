@@ -1,5 +1,4 @@
 # FinalProject
-
 sends a game between 2 players while syoring the information on players moves
 
 delivering mostly text however most reponses wil be automated based on the move the player has made
