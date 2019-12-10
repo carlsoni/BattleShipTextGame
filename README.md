@@ -5,10 +5,10 @@
  Download the zip file with all 3 files, server.py, client.py, and client2.py
  
 # Run
- Have one player open server.py, the other player does not need to.
-	The player who runs the server will the open client.py.
-	The other player will then open client2.py.
-	Follow the instructions that are prompted once the game begins.
+1. Have one player open server.py, the other player does not need to.
+2. The player who runs the server will the open client.py.
+3. The other player will then open client2.py.
+4. Follow the instructions that are prompted once the game begins.
 
 # Features
 1. system will keep track of moves made
