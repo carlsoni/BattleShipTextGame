@@ -2,7 +2,7 @@
  Players will place ships into an array. Once both players have placed all their ships onto the arrays, the game will begin. Players will go back and fourth making guesses on the opposing players board, EX: 'D 5', then the program will run it through the system and will return weither the opppentes ship was hit or was missed. The result will be recored on the first players radar it the shot was successful or not. The turns will then alternate between players until one player has run out of ships. At this point the game will end displaying a winner or looser screen depending on the outcome, then the program will close. 
  
 # Install
- Download the zip file with all 3 files, server.py, client.py, and client2.py
+ Download the zip file with all 4 files, README.md, server.py, client.py, and client2.py.
  
 # Run
 1. Have one player open server.py, the other player does not need to.
