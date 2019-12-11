@@ -18,6 +18,9 @@
 5. when a player quits, the program exits
 6. As of now, runs entirly in the console
 
+# Demo
+https://youtu.be/cBRbhjpPHfQ
+
 # References
 https://www.youtube.com/watch?v=CV7_stUWvBQ
 
