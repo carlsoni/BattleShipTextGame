@@ -512,5 +512,5 @@ while not hasLost and not hasWon:
         except IOError as er:
             continue
 counter = 0
-while counter > 500:
+while counter > 50000:
     ++counter
