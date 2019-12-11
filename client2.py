@@ -519,3 +519,6 @@ while not hasLost and not hasWon:
                 isTurn = True
         except IOError as er:
             continue
+counter = 0
+while counter > 500:
+    ++counter               
